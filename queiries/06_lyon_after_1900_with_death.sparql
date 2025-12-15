@@ -1,0 +1,15 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dbo:  <http://dbpedia.org/ontology/>
+PREFIX dbr:  <http://dbpedia.org/resource/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?name ?birthDate ?deathDate
+WHERE {
+  ?p dbo:birthPlace dbr:Lyon ;
+     foaf:name ?name ;
+     dbo:birthDate ?birthDate .
+
+  OPTIONAL { ?p dbo:deathDate ?deathDate }
+
+  FILTER (YEAR(?birthDate) > 1900)
+}

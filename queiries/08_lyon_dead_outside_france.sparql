@@ -1,0 +1,21 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dbo:  <http://dbpedia.org/ontology/>
+PREFIX dbr:  <http://dbpedia.org/resource/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?name
+WHERE {
+  ?p dbo:birthPlace dbr:Lyon ;
+     dbo:deathPlace ?deathPlace ;
+     foaf:name ?name .
+
+  ?deathPlace a ?deathPlaceType .
+
+  FILTER (
+    (?deathPlaceType = dbo:Country && ?deathPlace != dbr:France)
+    ||
+    (?deathPlaceType = dbo:City &&
+     NOT EXISTS { ?deathPlace dbo:country dbr:France })
+  )
+}
+
